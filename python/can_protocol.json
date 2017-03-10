@@ -1,0 +1,16 @@
+{
+    "subboards":[
+        {"can_id":0x70,"data_len":8,
+            "data":[
+            {"can_struct_id":0x53,"val_len":1,"val":100},
+            {"can_struct_id":0x54,"val_len":1,"val":0}
+            ]
+        },
+         {"can_id":0x80,"data_len":8,
+            "data":[
+            {"can_struct_id":0x83,"val_len":1,"val":70},
+            {"can_struct_id":0x84,"val_len":1,"val":4}
+            ]
+        }
+    ]
+}

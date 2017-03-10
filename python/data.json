@@ -1,0 +1,19 @@
+[
+    {
+        "can_id": 176, 
+        "data_len": 8,
+        "data":[
+            {"can_struct_id":2,"struct_id":88,"name":"pulse_touch","data_lens":3},
+            {"can_struct_id":3,"struct_id":99,"name":"pulse_adc","data_lens":3}
+        ]
+    },
+
+    {
+        "can_id": 112, 
+        "data_len": 8,
+        "data":[
+            {"can_struct_id":83,"struct_id":41,"name":"Battery Level","data_lens":1},
+            {"can_struct_id":84,"struct_id":56,"name":"Charging State","data_lens":1}
+        ]
+    }
+]
