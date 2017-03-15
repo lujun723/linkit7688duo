@@ -4,13 +4,11 @@ import serial
 import time
 import json
 import ast
-import json_parser
 
 process_flag=0
 s = None
 config = None
-sendup_package={"can_id":0, "struct_id":0, "data_lens":0, "data_val": [0,0]}
-json_package=json.dumps(sendup_package)
+sendup_package={"struct_id":0, "data_lens":0, "data_val": []}
 dict_object=None
 
 def load_config():
@@ -34,55 +32,35 @@ def loop():
     while read_buf[-1] !='}':
         read_buf.append(s.read(1))
     data =''.join(read_buf)
-    json_data=data_process(data)
-    json_parser.upload_packaging(json_data)
+    data_process(data);
 
         #print data_hex[:2],data_hex[2:4],data_hex[4:6],data_hex[6:8],data_hex[-2:]
 
 def data_process(data_buf):
-    global json_package
     #print (data_buf)
     #print (data_buf)
     data_buf = ast.literal_eval(json.dumps(data_buf))
-    #print "Now length is ", len(data_buf)
+    print "Now length is ", len(data_buf)
     
     try:
         dict_object=json.loads(data_buf)
         for item in config:
-            if item["can_id"]==112:
-                sendup_package["can_id"]=item["can_id"]
+            if(item["can_id"]==dict_object["SubBoard_ID"]):
                 for val in item["data"]:
                     if val["can_struct_id"]==dict_object["data"][0]:
                         sendup_package["struct_id"]=val["struct_id"]
                         sendup_package["data_val"]=dict_object["data"][1]
                         sendup_package["data_lens"]=val["data_lens"]
-                        #print val["name"]
-                        #print " is ", sendup_package["data_val"]
+                        print val["name"]
+                        print " is ", sendup_package["data_val"]
                         json_package=json.dumps(sendup_package)
-                        #print json_package
-                        #print '\n'
-            else :
-                item["can_id"]==dict_object["data"][0]
-                sendup_package["can_id"]=dict_object["data"][0]
-                #print "176 is get in\n"
-                for val in item["data"]:
-                    if val["can_struct_id"]==dict_object["data"][1]:
-                        #print "can struct id ok"
-                        sendup_package["struct_id"]=val["struct_id"]
-                        #print type(val["data_lens"])
-                        sendup_package["data_val"]=dict_object["data"][2:(2+val["data_lens"])]
-                        sendup_package["data_lens"]=val["data_lens"]
-                        #print val["name"]
-                        #print " is " ,sendup_package["data_val"][1]
-                        json_package=json.dumps(sendup_package)
-                        #print json_package
-                        #print '\n'
-    
+                        print json_package
+                        print '\n'
+
     except Exception,e:
         print Exception,":",e
         print "ERROR data_buf is ",data_buf
-
-    return json_package   
+       
     
     """
     print dict_object["SubBoard_ID"]

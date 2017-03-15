@@ -1,10 +1,36 @@
 # -*- coding: utf-8 -*-
 import json
 import time
+import socket,sys
+
+cmd_lens=5
+cmd_struct_id_l=78
+cmd_struct_id_h=00
+cmd_data=98
+cmd_package_id=1000
+cmd_sum=58
+
+cmd_head = "0a11"
+cmd_lens = "%02x" % cmd_lens
+cmd_struct_id_l = "%02x" % cmd_struct_id_l
+cmd_struct_id_h = "%02x" % cmd_struct_id_h
+cmd_data = "%02x" % cmd_data
+cmd_package_id_l = "%02x" % (cmd_package_id%256)
+cmd_package_id_h = "%02x" % (cmd_package_id/256)
+cmd_sum = "%02x" % cmd_sum
+cmd_send = cmd_head+cmd_lens+cmd_struct_id_l+cmd_struct_id_h+cmd_data+cmd_package_id_l+cmd_package_id_h+cmd_sum
+
+
+
+dest = ('<broadcast>', 18000)
 
 sendup_package={"struct_id":0, "data_lens":0, "data_val": 0}
 #json_package=json.dumps(sendup_package)#变成Json了
 #package=json.loads(json_package)
+
+s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+s.setsockopt(socket.SOL_SOCKET,socket.SO_BROADCAST,1)
+
 
 def store(data):
     with open('data.json', 'w') as json_file:
@@ -20,9 +46,14 @@ can_struct_id=83
 can_data_lens=1
 can_val=55
 
+def udp_boardcasting():
+    hex_cmd_send = cmd_send.decode("hex")
+    s.sendto(hex_cmd_send,dest)
+    print hex_cmd_send
+
 
 if __name__ == "__main__":
-
+    udp_boardcasting()
     data = load_config()
     for item in data:
         if(item["can_id"]==can_id):
@@ -34,6 +65,8 @@ if __name__ == "__main__":
                     json_package=json.dumps(sendup_package)
                     print val["name"]
                     print json_package
+
+
 
                   
                 

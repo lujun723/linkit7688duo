@@ -3,7 +3,7 @@
         "can_id": 176, 
         "data_len": 8,
         "data":[
-            {"can_struct_id":2,"struct_id":51,"name":"pulse_touch","data_lens":3},
+            {"can_struct_id":2,"struct_id":88,"name":"pulse_touch","data_lens":3},
             {"can_struct_id":3,"struct_id":99,"name":"pulse_adc","data_lens":3}
         ]
     },
