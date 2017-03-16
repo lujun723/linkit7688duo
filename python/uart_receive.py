@@ -9,7 +9,7 @@ import json_parser
 process_flag=0
 s = None
 config = None
-sendup_package={"can_id":0, "struct_id":0, "data_lens":0, "data_val": [0,0]}
+sendup_package={"can_id":0, "struct_id":0, "data_lens":0, "upload_lens":0,"data_val": [0,0]}
 json_package=json.dumps(sendup_package)
 dict_object=None
 
@@ -56,6 +56,7 @@ def data_process(data_buf):
                         sendup_package["struct_id"]=val["struct_id"]
                         sendup_package["data_val"]=dict_object["data"][1]
                         sendup_package["data_lens"]=val["data_lens"]
+                        sendup_package["upload_lens"]=val["upload_lens"]
                         #print val["name"]
                         #print " is ", sendup_package["data_val"]
                         json_package=json.dumps(sendup_package)
@@ -72,6 +73,7 @@ def data_process(data_buf):
                         #print type(val["data_lens"])
                         sendup_package["data_val"]=dict_object["data"][2:(2+val["data_lens"])]
                         sendup_package["data_lens"]=val["data_lens"]
+                        sendup_package["upload_lens"]=val["upload_lens"]
                         #print val["name"]
                         #print " is " ,sendup_package["data_val"][1]
                         json_package=json.dumps(sendup_package)
